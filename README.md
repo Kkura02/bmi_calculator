@@ -34,6 +34,10 @@ Vue Concepts here:
 - Dynamic Button Component
 - Color Palette Setup
 
+Web Design Reference:
+
+- https://dribbble.com/shots/19943152-BMI-Calculator-Daily-UI
+
 Progress:
 
 - I am stressed how to active the buttons gender, this is what we going to solve next.

@@ -1,6 +1,6 @@
 <template>
-    <div :class="style" class="h-fit w-fit">
-        <button class="" @click="setActive">
+    <div :class="`h-fit w-fit ${style} ${isActive ? 'btn-active' : ''}`">
+        <button @click="toggleActive">
             <h1 v-if="text">{{text}}</h1>
             <slot></slot>
         </button>
@@ -18,22 +18,30 @@ export default {
         },
         btnText:{
             type: String
-        }
+        },
+        isActive: {
+            type: Boolean,
+            default: false
+        },
+        index: {
+            type: Number, // Add an index prop to identify each button
+            required: true,
+        },
     },
     setup(props){
         const style = ref(props.btnStyle)
         const text = ref(props.btnText)
 
-        // const setActive =()=> {
-        //     style.value += ' secondary-active'
-        //     console.log(style.value)
-        // }
-        // const removeActive =()=> {
-        //     style.value -= ' secondary-active'
-        //     console.log(style.value)
-        // }
+        const toggleActive = () => {
+            // Emit an event to notify the parent component to toggle the active state
+            // You can also pass the button's index here
+            if (!props.isActive) {
+                // Only emit if the button is not already active
+                emit('toggle', props.index);
+            }
+        };
 
-        return{ style, text }
+        return{ style, text, toggleActive }
  
     }
 }
@@ -77,7 +85,7 @@ button, .primary{
     -webkit-text-fill-color: transparent;
     @apply bg-gradient-to-r from-primary via-secondary to-tertiary 
 }
-.secondary-active{
+.secondary.btn-active{
     @apply bg-gradient-to-r from-primary via-secondary to-tertiary
 }
 .tertiary {
@@ -86,9 +94,7 @@ button, .primary{
 .tertiary button{
     @apply hover:underline hover:decoration-2 hover:underline-offset-4
 }
-
-.switch{
-
+.tertiary.btn-active button{
+    @apply underline decoration-2 underline-offset-4
 }
-
 </style>
